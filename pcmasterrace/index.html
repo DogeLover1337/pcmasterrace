@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>But can it run Crysis?</title>
+    <link rel="stylesheet" href="amvidia.css">
+    <link rel="icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"> </head>
+
+<body>
+    <h4 class="whosthepeasantnow">PC Master Race: The War Against Peasantry</h4>
+    <h5 class="kabylakesux">(dont h8 me 4 no amd ppl plox i just know intel and nvidia more)</h5>
+    <div class="sidepanel">
+        <h3>FPS: <span id="fps">1</span></h3>
+        <h3>Reputation: <span id="rep">0</span></h3>
+        <h3>System Temperature: <span id="systemp">70</span></h3>
+        <button class="rekt" onclick="">Pray to the RGB Gods</button>
+        <button class="overclock" onclick="overclock(true);">OVERCLOCK</button>
+        <button class="overclock" onclick="overclock(false);">DECREASE CLOCK</button>
+        <div class="powerdead" id="powerdead">POWER SUPPLY DEAD</div>
+        <div class="overheating" id="overheating">OVERHEATING</div>
+    </div>
+    <div class="mainscreen" id="mainscreen">
+        <div class="mobo">
+            <h2>Motherboard</h2>
+            <h4>PCI Express Lanes: <span id="pcie"></span></h4>
+            <h4>Socket: LGA-<span id="socket"></span></h4>
+            <h4>RAM Interface: DDR<span id="ramspeed"></span></h4> </div>
+        <div class="component">
+            <h3>GPU: <span id="gpu"></span></h3> </div>
+        <div class="component">
+            <h3>CPU: <span id="cpu"></span></h3> </div>
+        <div class="component">
+            <h3>RAM: 8 gb of DDR<span id="ram"></span></h3> </div>
+        <div class="cooling">
+            <h3>Cooling: <span id="cooling"></span></h3> </div>
+        <div class="power">
+            <h3>Power Supply: <span id="power"></span> </h3> </div>
+        <button onclick="openshop(1)">SHOP</button>
+    </div>
+    <div class="shop" id="shop">
+        <h1>Welcome to the <span id="shopmessage">Bargain Basement!</span></h1>
+        <div class="moboshop">
+            <h2>New Motherboard..?</h2>
+            <ul id="moboshop"> </ul>
+        </div>
+        <div class="componentshop">
+            <h3>Compatible GPU's</h3>
+            <ul id="gpushop"> </ul>
+        </div>
+        <div class="componentshop">
+            <h3>Compatible CPU's</h3>
+            <ul id="cpushop"> </ul>
+        </div>
+        <div class="componentshop">
+            <h3>Compatible RAM</h3>
+            <ul id="ramshop"> </ul>
+        </div>
+        <div class="coolingshop">
+            <h3>Better Cooling</h3>
+            <ul id="coolingshop"> </ul>
+        </div>
+        <div class="powershop">
+            <h3>Power Supplies</h3>
+            <ul id="powershop"> </ul>
+        </div>
+        <button onclick="openshop(0)">RETURN</button>
+    </div>
+    <script src="peasantry.js"></script>
+</body>
+
+</html>
