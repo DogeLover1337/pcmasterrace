@@ -4,6 +4,8 @@ var fps = 1;
 var timeout = 30;
 var powerdead = false;
 var thermalthrottle = 0;
+var overclocked = 0;
+var moreheat = 0;
 var mobo = {
     socket: 775
     , ramspeed: 2
@@ -61,7 +63,7 @@ var cpu2 = {
 var cpu3 = {
         cost: 700
         , socket: 775
-        , heat: 5
+        , heat: 3
         , name: "Core 2 Quad Q8300"
         , fps: 8
         , bought: false
@@ -155,7 +157,7 @@ function mainLoop() {
     update();
     checkIfWorking();
     if (!powerdead) {
-        fps = cpu[components.cpu].fps + gpu[components.gpu].fps - thermalthrottle;
+        fps = cpu[components.cpu].fps + (gpu[components.gpu].fps + overclocked) - thermalthrottle;
         if (fps < 0) {
             fps = 0;
         }
@@ -165,8 +167,8 @@ function mainLoop() {
 function fpscount() {
     if (!powerdead && ram[components.ram].type == mobo[components.mobo].ramspeed) {
         rep += fps;
-        timeout--;
-        temp -= (cooling[components.cooling].cooling - cpu[components.cpu].heat);
+        timeout -= overclocked + 1;
+        temp -= (cooling[components.cooling].cooling - cpu[components.cpu].heat) - overclocked;
         if (temp < 70) {
             temp = 70;
         }
@@ -192,6 +194,8 @@ function update() {
     document.getElementById("cooling").innerHTML = cooling[components.cooling].name;
     //Power
     document.getElementById("power").innerHTML = power[components.power].name;
+    //Overclocking
+    document.getElementById("overclocking").innerHTML = overclocked;
 }
 //Checks if power supply is dead or if cpu is thermal throttling.
 function checkIfWorking() {
@@ -213,7 +217,16 @@ function checkIfWorking() {
     }
 }
 //Enables overclocking.
-function overclock(direction) {}
+function overclock() {
+    
+    var amount = parseInt(prompt("Key in a reasonable number:"));
+    if(amount >= (Math.round(cpu[components.cpu].fps * 0.5))){
+        overclocked = Math.round(cpu[components.cpu].fps * 0.5);
+    }else{
+        overclocked = amount;
+    } 
+    
+}
 //Updates items listed in shop.
 function updateshop() {
     document.getElementById("gpushop").innerHTML = "";
@@ -287,6 +300,8 @@ function buy(tier, thing) {
     else if (thing == "cpu") {
         if (cpu[tier].cost <= rep) {
             components.cpu = tier;
+            overclocked = 0;
+            cpu[tier - 1].heat
             cpu[tier].bought = true;
             rep -= cpu[tier].cost;
         }
