@@ -6,6 +6,9 @@ var powerdead = false;
 var thermalthrottle = 0;
 var overclocked = 0;
 var moreheat = 0;
+var pray = "";
+var can
+var timescheated = 0;
 var mobo = {
     socket: 775
     , ramspeed: 2
@@ -197,11 +200,12 @@ function update() {
     //Overclocking
     document.getElementById("overclocking").innerHTML = overclocked;
 }
-//Checks if power supply is dead or if cpu is thermal throttling.
+//Checks if power supply is dead or if cpu is thermal throttling, among other related things.
 function checkIfWorking() {
     if (timeout <= 0) {
         document.getElementById("powerdead").style.display = "block";
         powerdead = true;
+        pray = "power";
     }
     else {
         document.getElementById("powerdead").style.display = "none";
@@ -214,6 +218,27 @@ function checkIfWorking() {
     else {
         document.getElementById("overheating").style.display = "none";
         thermalthrottle = 0;
+    }
+    if(mobo[components.mobo].ramspeed != ram[components.ram].type){
+        powerdead = true;
+        pray = "moboram";
+    }
+}
+
+function clickpray() {
+    alert("hello");
+    var temporarie = confirm("WARNING: Only press this if you are in a situation you cannot get out of. (e.g. your power supply is dead and you don't have the money to buy a new one)");
+    if(temporarie){
+        if(pray == "moboram" && ram[mobo[components.mobo].ramspeed - 2].cost > rep) {
+            timescheated++;
+            components.ram = mobo[components.mobo].
+        }else if(){
+
+        }else{
+            alert("THANK YOU FOR THE APPRECIATION. I WILL TAKE YOUR OFFERING NOW.");
+        }
+        rep = 0;
+
     }
 }
 //Enables overclocking.
