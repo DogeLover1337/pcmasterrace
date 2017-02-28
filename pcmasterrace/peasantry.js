@@ -7,7 +7,6 @@ var thermalthrottle = 0;
 var overclocked = 0;
 var moreheat = 0;
 var pray = "";
-var can
 var timescheated = 0;
 var mobo = {
     socket: 775
@@ -46,6 +45,21 @@ var gpu3 = {
         , fps: 0
         , bought: false
     , }
+    var gpu4 = {
+    cost: 2800
+        , pcie: 1
+        , name: "GeForce 9800 GTX+"
+        , fps: 3
+        , bought: false
+    , }
+    var gpu5 = {
+        cost: 5000
+        , pcie: 1
+        , name: "GeForce GTX 275"
+        , fps: 5
+        , bought: false
+    , }
+
     //list the different cpus
 var cpu1 = {
     cost: 0
@@ -148,7 +162,7 @@ var ram3 = {
         , bought: false
     , }
     //list the components into an array
-var gpu = [gpu1, gpu2, gpu3, ]
+var gpu = [gpu1, gpu2, gpu3, gpu4, gpu5, ]
 var cpu = [cpu1, cpu2, cpu3, ]
 var power = [power1, power2, power3, ]
 var cooling = [cooling1, cooling2, cooling3, ]
@@ -199,6 +213,23 @@ function update() {
     document.getElementById("power").innerHTML = power[components.power].name;
     //Overclocking
     document.getElementById("overclocking").innerHTML = overclocked;
+    //Cheating
+    if(timescheated > 0){
+        document.getElementById("cheater").style.display = "block";
+        document.getElementById("timescheated").innerHTML = timescheated;
+    }else if(timescheated == "OVER 9000!!!!!"){
+        document.getElementById("cheater").style.display = "block";
+        document.getElementById("timescheated").innerHTML = timescheated;
+    }else{
+        document.getElementById("cheater").style.display = "none";
+    }
+
+    //EXTREME CHEATING
+    if(window.devtools.open){
+        timescheated = "OVER 9000!!!!!";
+
+    }
+    
 }
 //Checks if power supply is dead or if cpu is thermal throttling, among other related things.
 function checkIfWorking() {
@@ -225,15 +256,21 @@ function checkIfWorking() {
     }
 }
 
-function clickpray() {
-    alert("hello");
-    var temporarie = confirm("WARNING: Only press this if you are in a situation you cannot get out of. (e.g. your power supply is dead and you don't have the money to buy a new one)");
+var clickpray = function() {
+    var temporarie = confirm("WARNING: Only press OK if you are in a situation you cannot get out of. (e.g. your power supply is dead and you don't have the money to buy a new one)");
     if(temporarie){
         if(pray == "moboram" && ram[mobo[components.mobo].ramspeed - 2].cost > rep) {
+            alert("THE GOD OF RGB RAM WILL NOW GRANT YOU A NEW SET OF RAM.");
             timescheated++;
-            components.ram = mobo[components.mobo].
-        }else if(){
-
+            components.ram = mobo[components.mobo].ramspeed - 2;
+            ram[components.ram].bought = true;
+            pray = "";
+        }else if(pray == "power" && rep < 8){
+            alert("THE GOD OF RGB POWER SUPPLIES WILL NOW GRANT YOU A NEW POWER SUPPLY.");
+            timescheated++;
+            components.power = 0;
+            timeout = power[0].timeout;
+            pray = "";
         }else{
             alert("THANK YOU FOR THE APPRECIATION. I WILL TAKE YOUR OFFERING NOW.");
         }
@@ -245,12 +282,15 @@ function clickpray() {
 function overclock() {
     
     var amount = parseInt(prompt("Key in a reasonable number:"));
-    if(amount >= (Math.round(cpu[components.cpu].fps * 0.5))){
-        overclocked = Math.round(cpu[components.cpu].fps * 0.5);
+    if(Number.isInteger(amount)){
+        if(amount >= (Math.round(cpu[components.cpu].fps * 0.5))){
+            overclocked = Math.round(cpu[components.cpu].fps * 0.5);
+        }else{
+            overclocked = amount;
+        } 
     }else{
-        overclocked = amount;
-    } 
-    
+        alert("Please key in an integer. (A number without a decimal)");
+    }
 }
 //Updates items listed in shop.
 function updateshop() {
