@@ -1,5 +1,5 @@
 var rep = 0;
-var temp = 70;
+var temp = 40;
 var fps = 1;
 var timeout = 30;
 var powerdead = false;
@@ -85,16 +85,25 @@ var cpu3 = {
         , fps: 8
         , bought: false
     , }
+var cpu4 = {
+        cost: 3900
+        , socket: 1156
+        , heat: 2
+        , name: "Core i5-650"
+        , fps: 12
+        , bought: false
+    , }
+
     //list the power supplies
 var power1 = {
     cost: 8
     , timeout: 30
-    , name: "Whatever it is, it's gonna die soon"
+    , name: "Whatever it is, it's gonna die soon... Really soon."
 , }
 var power2 = {
     cost: 10
     , timeout: 680
-    , name: "Better than before, but super sketchy"
+    , name: "Better than before, but still super sketchy"
 , }
 var power3 = {
         cost: 300
@@ -161,9 +170,22 @@ var ram3 = {
         , type: 4
         , bought: false
     , }
+
+
+    //easy listing
+
+// function listComponents(component){
+//     var array = [];
+//     var exit = false;
+//     for(var i = 0; !exit; i++){
+//         if(component + i )
+//     }
+// }
+
     //list the components into an array
 var gpu = [gpu1, gpu2, gpu3, gpu4, gpu5, ]
-var cpu = [cpu1, cpu2, cpu3, ]
+//var gpu = listComponents("gpu");
+var cpu = [cpu1, cpu2, cpu3, cpu4, ]
 var power = [power1, power2, power3, ]
 var cooling = [cooling1, cooling2, cooling3, ]
 var mobo = [mobo1, mobo2, mobo3, ]
@@ -186,8 +208,8 @@ function fpscount() {
         rep += fps;
         timeout -= overclocked + 1;
         temp -= (cooling[components.cooling].cooling - cpu[components.cpu].heat) - overclocked;
-        if (temp < 70) {
-            temp = 70;
+        if (temp < 40) {
+            temp = 40;
         }
     }
 }
@@ -242,8 +264,8 @@ function checkIfWorking() {
         document.getElementById("powerdead").style.display = "none";
         powerdead = false;
     }
-    if (temp - 71 >= 0) {
-        thermalthrottle = temp - 71;
+    if (temp - 41 >= 0) {
+        thermalthrottle = temp - 41;
         document.getElementById("overheating").style.display = "block";
     }
     else {
@@ -253,6 +275,14 @@ function checkIfWorking() {
     if(mobo[components.mobo].ramspeed != ram[components.ram].type){
         powerdead = true;
         pray = "moboram";
+    }
+    if(mobo[components.mobo].socket != cpu[components.cpu].socket){
+        powerdead = true;
+        pray = "socket"
+    }
+    if(mobo[components.mobo].pcie < gpu[components.gpu].pcie){
+        powerdead = true;
+        pray = "pcie";
     }
 }
 
@@ -316,7 +346,7 @@ function updateshop() {
             cpu[i].cost = 0;
         }
         if (cpu[i].socket == mobo[components.mobo].socket) {
-            document.getElementById("cpushop").innerHTML += "<li onclick=\"buy(" + i + ", 'cpu')\"; class='store'> Name: " + cpu[i].name + ", FPS gain: " + cpu[i].fps + " fps, heat output: " + cpu[i].heat + ", cost: " + cpu[i].cost + ". Click this to buy! </li>";
+            document.getElementById("cpushop").innerHTML += "<li onclick=\"buy(" + i + ", 'cpu')\"; class='store'> Name: " + cpu[i].name + ", FPS gain: " + cpu[i].fps + " fps, socket: LGA-" + cpu[i].socket + ", heat output: " + cpu[i].heat + ", cost: " + cpu[i].cost + ". Click this to buy! </li>";
         }
     }
     for (var i = 0; i < mobo.length; i++) {
@@ -366,9 +396,9 @@ function buy(tier, thing) {
         if (cpu[tier].cost <= rep) {
             components.cpu = tier;
             overclocked = 0;
-            cpu[tier - 1].heat
             cpu[tier].bought = true;
             rep -= cpu[tier].cost;
+            temp = 40;
         }
         else {
             alert("Your reputation isn't good enough for you to buy this.");
@@ -417,6 +447,9 @@ function openshop(open) {
         document.getElementById("shop").style.display = "none";
     }
 }
+
+
+
 var interval1 = setInterval(fpscount, 1000);
 var interval2 = setInterval(mainLoop, 30);
 updateshop();
